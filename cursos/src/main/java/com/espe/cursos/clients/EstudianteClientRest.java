@@ -5,7 +5,7 @@ import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
-@FeignClient(name = "micro_estudiantes", url = "http://localhost:8003/api/estudiantes")
+@FeignClient(name = "estudiantes", url = "http://localhost:8003/api/estudiantes")
 public interface EstudianteClientRest {
     @GetMapping("/{id}")
     Estudiante findById(@PathVariable Long id);
