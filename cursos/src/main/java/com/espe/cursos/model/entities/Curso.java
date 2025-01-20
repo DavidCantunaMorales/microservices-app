@@ -1,5 +1,9 @@
 package com.espe.cursos.model.entities;
+import com.espe.cursos.model.Estudiante;
 import jakarta.persistence.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "cursos")
@@ -16,6 +20,27 @@ public class Curso {
 
     @Column(nullable = false)
     private int creditos;
+
+    // RELACION CURSO -> ESTUDIANTE
+    @OneToMany(cascade = CascadeType.ALL)
+    @JoinColumn(name = "curso_id")
+    private List<CursoEstudiante> cursoEstudiantes;
+
+    @Transient
+    private List<Estudiante> estudiantes;
+
+    public Curso() {
+        cursoEstudiantes = new ArrayList<>();
+        estudiantes = new ArrayList<>();
+    }
+
+    public void addCursoEstudiante(CursoEstudiante cursoEstudiante) {
+        cursoEstudiantes.add(cursoEstudiante);
+    }
+
+    public void removeCursoEstudiante(CursoEstudiante cursoEstudiante) {
+        cursoEstudiantes.remove(cursoEstudiante);
+    }
 
     // GETTERS Y SETTERS
 
