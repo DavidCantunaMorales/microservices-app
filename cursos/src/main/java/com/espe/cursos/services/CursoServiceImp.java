@@ -42,14 +42,14 @@ public class CursoServiceImp implements CursoService {
     // AÑADIR UN ESTUDIANTE A UN CURSO
     @Override
     public Optional<Estudiante> addStudent(Estudiante estudiante, Long cursoId) {
-        Optional<Curso> optionalCurso = cursoRepository.findById(cursoId);
-        if (optionalCurso.isPresent()) {
+        Optional<Curso> optional = cursoRepository.findById(cursoId);
+        if (optional.isPresent()) {
             Estudiante estudianteTemp = clientRest.findById(estudiante.getId());
-            Curso curso = optionalCurso.get();
+            Curso cursoTemp = optional.get();
             CursoEstudiante cursoEstudiante = new CursoEstudiante();
             cursoEstudiante.setEstudianteId(estudianteTemp.getId());
-            curso.addCursoEstudiante(cursoEstudiante);
-            cursoRepository.save(curso);
+            cursoTemp.addCursoEstudiante(cursoEstudiante);
+            cursoRepository.save(cursoTemp);
             return Optional.of(estudianteTemp);
         }
         return Optional.empty();

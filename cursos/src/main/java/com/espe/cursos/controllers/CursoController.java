@@ -63,7 +63,7 @@
         }
 
         // ESTUDIANTE -> CURSO
-        @PostMapping("/{id}/estudiantes")
+        @PostMapping("/{id}")
         public ResponseEntity<?> agregarEstudiante(@RequestBody Estudiante estudiante, @PathVariable Long id) {
             Optional<Estudiante> estudianteOptional;
             try {

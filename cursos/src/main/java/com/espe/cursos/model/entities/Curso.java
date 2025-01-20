@@ -22,12 +22,17 @@ public class Curso {
     private int creditos;
 
     // RELACION CURSO -> ESTUDIANTE
-    @OneToMany
+    @OneToMany(cascade = CascadeType.ALL)
     @JoinColumn(name = "curso_id")
-    private List<CursoEstudiante> cursoEstudiantes = new ArrayList<>();
+    private List<CursoEstudiante> cursoEstudiantes;
 
     @Transient
-    private List<Estudiante> estudiantes = new ArrayList<>();
+    private List<Estudiante> estudiantes;
+
+    public Curso() {
+        cursoEstudiantes = new ArrayList<>();
+        estudiantes = new ArrayList<>();
+    }
 
     public void addCursoEstudiante(CursoEstudiante cursoEstudiante) {
         cursoEstudiantes.add(cursoEstudiante);
