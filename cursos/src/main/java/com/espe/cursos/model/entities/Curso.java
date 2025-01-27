@@ -42,6 +42,15 @@ public class Curso {
         cursoEstudiantes.remove(cursoEstudiante);
     }
 
+    // Getter y setter para la lista cursoEstudiantes
+    public List<CursoEstudiante> getCursoEstudiantes() {
+        return cursoEstudiantes;
+    }
+
+    public void setCursoEstudiantes(List<CursoEstudiante> cursoEstudiantes) {
+        this.cursoEstudiantes = cursoEstudiantes;
+    }
+
     // GETTERS Y SETTERS
 
     public Long getId() {

@@ -13,4 +13,10 @@ public interface CursoService {
     void deleteById(Long id);
 
     Optional<Estudiante> addStudent(Estudiante estudiante, Long cursoId);
+    // Método para listar estudiantes de un curso
+    List<Estudiante> getStudentsByCourse(Long cursoId);
+    // Método para listar cursos de un estudiante
+    List<Curso> findCoursesByStudent(Long estudianteId);
+    // Método para revocar un estudiante
+    boolean removeStudent(Long estudianteId, Long cursoId);
 }

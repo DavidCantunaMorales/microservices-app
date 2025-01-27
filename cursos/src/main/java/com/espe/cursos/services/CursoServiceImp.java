@@ -8,6 +8,7 @@ import com.espe.cursos.repositories.CursoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,5 +54,50 @@ public class CursoServiceImp implements CursoService {
             return Optional.of(estudianteTemp);
         }
         return Optional.empty();
+    }
+
+    @Override
+    public List<Estudiante> getStudentsByCourse(Long cursoId) {
+        Optional<Curso> cursoOptional = cursoRepository.findById(cursoId);
+        List<Estudiante> estudiantes = new ArrayList<>();
+        if (cursoOptional.isPresent()) {
+            Curso curso = cursoOptional.get();
+            for (CursoEstudiante cursoEstudiante : curso.getCursoEstudiantes()) {
+                Estudiante estudiante = clientRest.findById(cursoEstudiante.getEstudianteId());
+                estudiantes.add(estudiante);
+            }
+        }
+        return estudiantes;
+    }
+
+    @Override
+    public List<Curso> findCoursesByStudent(Long estudianteId) {
+        List<Curso> cursos = new ArrayList<>();
+        List<Curso> allCursos = (List<Curso>) cursoRepository.findAll();
+        for (Curso curso : allCursos) {
+            for (CursoEstudiante cursoEstudiante : curso.getCursoEstudiantes()) {
+                if (cursoEstudiante.getEstudianteId().equals(estudianteId)) {
+                    cursos.add(curso);
+                    break;
+                }
+            }
+        }
+        return cursos;
+    }
+
+    @Override
+    public boolean removeStudent(Long estudianteId, Long cursoId) {
+        Optional<Curso> cursoOptional = cursoRepository.findById(cursoId);
+        if (cursoOptional.isPresent()) {
+            Curso curso = cursoOptional.get();
+            for (CursoEstudiante cursoEstudiante : curso.getCursoEstudiantes()) {
+                if (cursoEstudiante.getEstudianteId().equals(estudianteId)) {
+                    curso.removeCursoEstudiante(cursoEstudiante);
+                    cursoRepository.save(curso);  // Guardamos los cambios en el curso
+                    return true;  // Devolvemos true si se eliminó correctamente
+                }
+            }
+        }
+        return false;  // Devolvemos false si no se encontró el estudiante o el curso
     }
 }

@@ -76,4 +76,31 @@
             }
             return ResponseEntity.notFound().build();
         }
+
+        @GetMapping("/{id}/estudiantes")
+        public ResponseEntity<List<Estudiante>> getStudentsByCourse(@PathVariable Long id) {
+            List<Estudiante> estudiantes = cursoService.getStudentsByCourse(id);
+            if (!estudiantes.isEmpty()) {
+                return ResponseEntity.ok(estudiantes);
+            }
+            return ResponseEntity.notFound().build();
+        }
+
+        @GetMapping("/estudiantes/{estudianteId}/cursos")
+        public ResponseEntity<List<Curso>> getCoursesByStudent(@PathVariable Long estudianteId) {
+            List<Curso> cursos = cursoService.findCoursesByStudent(estudianteId);
+            if (!cursos.isEmpty()) {
+                return ResponseEntity.ok(cursos);
+            }
+            return ResponseEntity.noContent().build();
+        }
+
+        @DeleteMapping("/{cursoId}/estudiantes/{estudianteId}")
+        public ResponseEntity<?> removeStudent(@PathVariable Long cursoId, @PathVariable Long estudianteId) {
+            boolean removed = cursoService.removeStudent(estudianteId, cursoId);
+            if (removed) {
+                return ResponseEntity.noContent().build();  // 204 No Content si se eliminó correctamente
+            }
+            return ResponseEntity.notFound().build();  // 404 Not Found si no se encontró el estudiante o el curso
+        }
     }
